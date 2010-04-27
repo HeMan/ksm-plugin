@@ -1,0 +1,19 @@
+#!/bin/bash
+
+#%# family=test
+
+do_ () {
+        KSM=$(cat /sys/kernel/mm/ksm/pages_shared)
+echo ksm.value $KSM
+
+}
+
+do_config () {
+        cat <<EOF
+graph_title Shared pages
+ksm.label ksm
+EOF
+}
+
+do_$1
+
