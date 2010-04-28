@@ -2,16 +2,60 @@
 #testing
 #%# family=test
 
-do_ () {
-        KSM=$(cat /sys/kernel/mm/ksm/pages_shared)
-echo ksm.value $KSM
+SYSPATH="/sys/kernel/mm/ksm/"
+KSMFILES="pages_shared pages_unshared pages_volatile"
 
+# Check if hostname binary is present
+if [ "$(which hostname)no" == "no" ]; then
+    echo "Can't locate 'hostname' binary" >&2
+    exit 1
+fi
+
+
+# Test if sys-files for KSM are present
+for f in $KSMFILES
+do
+    if [ ! -f ${SYSPATH}${f} ]; then
+        echo "Unable to find file: ${SYSPATH}${f}" >&2
+        exit 1
+    fi
+done
+
+
+do_ () {
+    shared=$(cat ${SYSPATH}pages_shared)
+    unshared=$(cat ${SYSPATH}pages_unshared)
+    volatile=$(cat ${SYSPATH}pages_volatile)
+    
+    echo volatile.value $volatile
+    echo unshared.value $unshared
+    echo shared.value $shared
+}
+
+do_autoconf () {
+    echo "no"
 }
 
 do_config () {
         cat <<EOF
-graph_title Shared pages
-ksm.label ksm
+graph_title KSM pages
+graph_info Memory pages used by KSM
+graph_vlabel Memory pages
+graph_category system
+graph_args --base 1000 -l 0
+graph_scale yes
+unshared.label Unshared
+unshared.info Number of memory pages aviable for sharing
+unshared.type GAUGE
+unshared.draw AREA
+shared.label Shared
+shared.info Number of shared memory pages
+shared.type GAUGE
+bhared.draw STACK
+volatile.label Volatile
+volatile.info Non shareble memory pages
+volatile.type GAUGE
+volatile.draw STACK
 EOF
 }
 
