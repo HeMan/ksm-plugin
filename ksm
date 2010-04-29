@@ -1,15 +1,29 @@
 #!/bin/bash
-#testing
+
+# Copyright(c) 2010.
+#    * Jonas Forsberg 
+#    * Jimmy Hedman 
+#
+# This file may be licensed under the terms of of the
+# GNU General Public License Version 2 (the ``GPL'').
+#
+# Software distributed under the License is distributed
+# on an ``AS IS'' basis, WITHOUT WARRANTY OF ANY KIND, either
+# express or implied. See the GPL for the specific language
+# governing rights and limitations.
+#
+# You should have received a copy of the GPL along with this
+# program. If not, go to http://www.gnu.org/licenses/gpl.html
+# or write to the Free Software Foundation, Inc.,
+# 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+
+
+
+
 #%# family=test
 
 SYSPATH="/sys/kernel/mm/ksm/"
-KSMFILES="pages_shared pages_unshared pages_volatile"
-
-# Check if hostname binary is present
-if [ "$(which hostname)no" == "no" ]; then
-    echo "Can't locate 'hostname' binary" >&2
-    exit 1
-fi
+KSMFILES="pages_shared pages_unshared pages_volatile pages_sharing"
 
 
 # Test if sys-files for KSM are present
@@ -26,10 +40,10 @@ do_ () {
     shared=$(cat ${SYSPATH}pages_shared)
     unshared=$(cat ${SYSPATH}pages_unshared)
     volatile=$(cat ${SYSPATH}pages_volatile)
-    
-    echo volatile.value $volatile
-    echo unshared.value $unshared
+    sharing=$(cat ${SYSPATH}pages_sharing)
     echo shared.value $shared
+    echo unshared.value $unshared
+    echo volatile.value $volatile
 }
 
 do_autoconf () {
@@ -44,18 +58,22 @@ graph_vlabel Memory pages
 graph_category system
 graph_args --base 1000 -l 0
 graph_scale yes
-unshared.label Unshared
-unshared.info Number of memory pages aviable for sharing
-unshared.type GAUGE
-unshared.draw AREA
 shared.label Shared
 shared.info Number of shared memory pages
 shared.type GAUGE
-bhared.draw STACK
+shared.draw AREA
+unshared.label Unshared
+unshared.info Number of memory pages aviable for sharing
+unshared.type GAUGE
+unshared.draw STACK
 volatile.label Volatile
 volatile.info Non shareble memory pages
 volatile.type GAUGE
 volatile.draw STACK
+sharing.label Sharing
+sharing.info An indication of memory pages savings
+sharing.type GAUGE
+sharing.draw LINE2
 EOF
 }
 
