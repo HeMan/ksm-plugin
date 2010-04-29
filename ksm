@@ -37,13 +37,10 @@ done
 
 
 do_ () {
-    shared=$(cat ${SYSPATH}pages_shared)
-    unshared=$(cat ${SYSPATH}pages_unshared)
-    volatile=$(cat ${SYSPATH}pages_volatile)
-    sharing=$(cat ${SYSPATH}pages_sharing)
-    echo shared.value $shared
-    echo unshared.value $unshared
-    echo volatile.value $volatile
+    echo shared.value $(cat ${SYSPATH}pages_shared)
+    echo unshared.value $(cat ${SYSPATH}pages_volatile)
+    echo volatile.value $(cat ${SYSPATH}pages_volatile)
+    echo sharing.value $(cat ${SYSPATH}pages_sharing)
 }
 
 do_autoconf () {
