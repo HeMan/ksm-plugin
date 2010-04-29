@@ -38,7 +38,7 @@ done
 
 do_ () {
     echo shared.value $(cat ${SYSPATH}pages_shared)
-    echo unshared.value $(cat ${SYSPATH}pages_volatile)
+    echo unshared.value $(cat ${SYSPATH}pages_unshared)
     echo volatile.value $(cat ${SYSPATH}pages_volatile)
     echo sharing.value $(cat ${SYSPATH}pages_sharing)
 }
