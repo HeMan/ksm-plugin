@@ -23,20 +23,18 @@
 #%# family=test
 
 SYSPATH="/sys/kernel/mm/ksm/"
-KSMFILES="pages_shared pages_unshared pages_volatile pages_sharing"
+KSMFILES="pages_shared pages_unshared pages_volatile pages_sharing k"
 
-
-# Test if sys-files for KSM are present
-for f in $KSMFILES
-do
-    if [ ! -f "${SYSPATH}${f}" ]; then
-        echo "Unable to find file: ${SYSPATH}${f}" >&2
-        exit 1
-    fi
-done
 
 
 do_ () {
+    # Test if sys-files for KSM are present
+    for f in $KSMFILES
+    do
+        if [ ! -f "${SYSPATH}${f}" ]; then
+            echo "Unable to find file: ${SYSPATH}${f}" >&2
+        fi
+    done
     echo shared.value $(cat ${SYSPATH}pages_shared)
     echo unshared.value $(cat ${SYSPATH}pages_unshared)
     echo volatile.value $(cat ${SYSPATH}pages_volatile)
@@ -44,7 +42,14 @@ do_ () {
 }
 
 do_autoconf () {
-    echo "no"
+    for f in $KSMFILES
+    do
+        if [ ! -f "${SYSPATH}${f}" ]; then
+            echo "no (Unable to find file: ${SYSPATH}${f})" 
+            exit 0
+        fi
+    done
+    echo "yes"
 }
 
 do_config () {

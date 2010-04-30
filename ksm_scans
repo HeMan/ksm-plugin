@@ -25,19 +25,21 @@
 SYSPATH="/sys/kernel/mm/ksm/"
 
 
-# Test if sys-files for KSM are present
-if [ ! -f "${SYSPATH}full_scans" ]; then
-    echo "Unable to find file: ${SYSPATH}full_scans" >&2
-    exit 1
-fi
-
-
 do_ () {
-    echo scans.value $(cat ${SYSPATH}full_scans)
+    # Test if sys-files for KSM are present
+    if [ ! -f "${SYSPATH}full_scans" ]; then
+        echo "Unable to find file: ${SYSPATH}full_scans" >&2
+    else
+        echo scans.value $(cat ${SYSPATH}full_scans)
+   fi 
 }
 
 do_autoconf () {
-    echo "no"
+    if [ ! -f "${SYSPATH}full_scans" ]; then
+        echo "no (Unable to find file: ${SYSPATH}full_scans)" 
+        exit 0
+    fi
+    echo "yes"
 }
 
 do_config () {
