@@ -50,7 +50,7 @@ graph_scale yes
 scans.label Number of full scans
 scans.info Number of full scans made by KSM
 scans.type COUNTER
-shared.draw LINE2
+scans.draw LINE2
 EOF
 }
 
