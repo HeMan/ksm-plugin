@@ -29,7 +29,7 @@ KSMFILES="pages_shared pages_unshared pages_volatile pages_sharing"
 # Test if sys-files for KSM are present
 for f in $KSMFILES
 do
-    if [ ! -f ${SYSPATH}${f} ]; then
+    if [ ! -f "${SYSPATH}${f}" ]; then
         echo "Unable to find file: ${SYSPATH}${f}" >&2
         exit 1
     fi

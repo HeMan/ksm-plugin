@@ -1,0 +1,58 @@
+#!/bin/bash
+
+# Copyright(c) 2010.
+#    * Jonas Forsberg 
+#    * Jimmy Hedman 
+#
+# This file may be licensed under the terms of of the
+# GNU General Public License Version 2 (the ``GPL'').
+#
+# Software distributed under the License is distributed
+# on an ``AS IS'' basis, WITHOUT WARRANTY OF ANY KIND, either
+# express or implied. See the GPL for the specific language
+# governing rights and limitations.
+#
+# You should have received a copy of the GPL along with this
+# program. If not, go to http://www.gnu.org/licenses/gpl.html
+# or write to the Free Software Foundation, Inc.,
+# 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+
+
+
+
+#%# family=test
+
+SYSPATH="/sys/kernel/mm/ksm/"
+
+
+# Test if sys-files for KSM are present
+if [ ! -f "${SYSPATH}full_scans" ]; then
+    echo "Unable to find file: ${SYSPATH}full_scans" >&2
+    exit 1
+fi
+
+
+do_ () {
+    echo scans.value $(cat ${SYSPATH}full_scans)
+}
+
+do_autoconf () {
+    echo "no"
+}
+
+do_config () {
+        cat <<EOF
+graph_title KSM Full Scans
+graph_info Number of full scans made by KSM
+graph_category system
+graph_args --base 1000 -l 0
+graph_scale yes
+scans.label Number of full scans
+scans.info Number of full scans made by KSM
+scans.type LINE2
+shared.draw AREA
+EOF
+}
+
+do_$1
+
