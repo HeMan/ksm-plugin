@@ -23,7 +23,7 @@
 #%# family=test
 
 SYSPATH="/sys/kernel/mm/ksm/"
-KSMFILES="pages_shared pages_unshared pages_volatile pages_sharing k"
+KSMFILES="pages_shared pages_unshared pages_volatile pages_sharing"
 
 
 
