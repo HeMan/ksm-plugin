@@ -21,6 +21,7 @@
 
 
 #%# family=test
+#%# capabilities=autoconf
 
 SYSPATH="/sys/kernel/mm/ksm/"
 KSMFILES="pages_shared pages_unshared pages_volatile pages_sharing"

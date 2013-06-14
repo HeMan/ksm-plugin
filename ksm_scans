@@ -21,6 +21,7 @@
 
 
 #%# family=test
+#%# capabilities=autoconf
 
 SYSPATH="/sys/kernel/mm/ksm/"
 
