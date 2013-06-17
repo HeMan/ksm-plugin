@@ -2,9 +2,8 @@ PLUGINDIR = /usr/share/munin/plugins
 PLUGINS = ksm ksm_scans
 
 install:
-	test -n "$(DESTDIR)"
+	test -n "$(PLUGINDIR)"
 	
-	install -d "$(DESTDIR)"
+	install -d "$(PLUGINDIR)"
 
-	install -d "$(DESTDIR)$(PLUGINDIR)"
 	install -m 755 $(PLUGINS) $(DESTDIR)$(PLUGINDIR)	
